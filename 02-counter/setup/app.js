@@ -1,33 +1,39 @@
-// set initial count
+// set initial count. Since the HTML won't be able to change the
+// count accordingly, create a variable that represents the count
+// and use it when the time comes to change the count in your js
 let count = 0;
 
+
 // select value and buttons
-const value = document.querySelector('#value');
+const value = document.getElementById('value');
 const btns = document.querySelectorAll('.btn');
 
-// can target individual buttons without 
-// selecting each button seperately
+// querySelectorAll capturing each button click
 btns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
-        const styles = (e.currentTarget.classList);
+        // catches current button that user clicked and displays
+        // all classList items accordingly
+        const styles = e.currentTarget.classList;
         if (styles.contains('decrease')) {
             count--;
-        } else if (styles.contains('increase')) {
+        }
+        else if (styles.contains('increase')) {
             count++;
-        } else {
+        }
+        else {
             count = 0;
         }
-        if (count > 0) {
-            value.style.color = 'green';
-        }
-        if (count < 0) {
-            value.style.color = 'red';
-        }
-        // note: ===
-        if (count === 0) {
-            value.style.color = '#222';
-        }
-            // changes text content of span
-            value.textContent = count;
-    });
-});
+        // change HTML content placed at bottom of function
+        // as it applies to all if/ else statements
+        value.textContent = count;
+        
+        
+        
+    })
+})
+
+
+
+
+
+

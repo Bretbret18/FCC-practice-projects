@@ -38,57 +38,66 @@ const reviews = [
   },
 ];
 
-// capture certain part of array of objects
-// console.log(reviews[1].job)
 
-// capture DOM elements to be changed
-const img = document.getElementById('person-img');
-const author = document.getElementById('author');
-const job = document.getElementById('job');
-const info = document.getElementById('info');
+const img = document.querySelector('#person-img')
+const author = document.querySelector('#author')
+const job = document.querySelector('#job')
+const text = document.querySelector('#info')
 
+// grab buttons
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 const randomBtn = document.querySelector('.random-btn');
 
-// set starting item, again index begins at 0
+// set starting item (initial value)
 let currentItem = 0;
 
-// load initial item
+// load initial item / window and (DOMContentLoaded)
+// load automatically
+// Understand what happens when DOMContentLoaded function
+// was changed to showPerson()
 window.addEventListener('DOMContentLoaded', function () {
   showPerson(currentItem);
-  // initial setup
-  // const item = reviews[currentItem];
-  // img.src = item.img;
-  // author.textContent = item.name;
-  // job.textContent = item.job;
-  // info.textContent = item.text;
 });
 
-// show person based on item
-function showPerson() {
-  const item = reviews[currentItem];
+// function show person based on item
+function showPerson (person) {
+  const item = reviews[person];
   img.src = item.img;
   author.textContent = item.name;
-  job.textContent = item.job;
-  info.textContent = item.text;
-}
+  job.innerHTML = item.job;
+  text.innerHTML = item.text;
+};
 
-// Show next person
 nextBtn.addEventListener('click', function () {
   currentItem++;
-  if (currentItem > reviews.length - 1) {
+  if(currentItem > reviews.length - 1) {
     currentItem = 0;
   }
   showPerson(currentItem);
 });
 
-// Show last person
+
+
 prevBtn.addEventListener('click', function () {
   currentItem--;
   if (currentItem < 0) {
     currentItem = reviews.length - 1;
   }
+  showPerson(currentItem);
+});
+
+
+// show random person
+randomBtn.addEventListener('click', function () {
+  currentItem = Math.floor(Math.random() * reviews.length);
+  console.log(currentItem);
   showPerson(currentItem)
 });
+
+
+
+
+
+
 
