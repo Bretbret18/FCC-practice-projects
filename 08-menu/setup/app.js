@@ -1,6 +1,15 @@
-// used map(), join()
+// used map(), join(), filter(), currenttarget.dataset.id
+// forEach(), /map()/ addEventListener, array, templateLiterals
+// reduce(), includes(), push()
 
+// get only unique categories - HARDEST ONE!
+// iterate over categories return buttons
+// make sure to select buttons when they are available
 
+// quick reference for pulling from array of objects
+// console.log(menu[2].category);
+
+// items
 const menu = [
   {
     id: 1,
@@ -74,19 +83,79 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "steak dinner",
+    category: "dinner",
+    price: 39.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
+
+
+const btnContainer = document.querySelector('.btn-container')
 const sectionCenter = document.querySelector('.section-center');
+
+
 // on screen load (DOMContentLoaded) happens immediately
-window.addEventListener('DOMContentLoaded', function() {
- displayMenuItems(menu)
+window.addEventListener('DOMContentLoaded', function () {
+  displayMenuItems(menu);
+  // map() returns new array
+  const categories = menu.reduce(function (values, item) {
+    if (!values.includes(item.category)) {
+      values.push(item.category)
+    }
+    return values
+  },
+    ['all']
+  )
+  // console.log(categories);
+  const categoryBtns = categories.map(function (category) {
+    return `<button class="filter-btn" type="button"
+     data-id="${category}">
+     ${category}
+     </button>`;
+  })
+    .join('');
+  btnContainer.innerHTML = categoryBtns;
+  // .filter-btn was taken off the HTML page and are now 
+  // created dynamically, so they must be captured another 
+  // way.
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // filter items //
+  // *** filterBtns.forEach() was its own function and then
+  // cut and placed into this (DOMContentLoaded) function
+  // otherwise filterBtns variable wouldn't be able to be
+  // read. *** //
+filterBtns.forEach(function (btn) {
+  btn.addEventListener('click', function (event) {
+    const category = event.currentTarget.dataset.id;
+    const menuCategory = menu.filter(function (menuItem) {
+      // console.log(menuItem.category);
+      if (menuItem.category === category) {
+        return menuItem;
+      }
+    });
+    //   console.log(menuCategory);
+    if (category === 'all') {
+      displayMenuItems(menu);
+    } else {
+      displayMenuItems(menuCategory);
+    };
+  });
+});
 });
 
+
+
+
 function displayMenuItems(menuItems) {
-  let displayMenu = menuItems.map(function(item) {
+  let displayMenu = menuItems.map(function (item) {
     // console.log(item);
-        
-        return `<article class="menu-item">
+    return `<article class="menu-item">
         <img src=${item.img} class="photo" alt=${item.title} />
         <div class="item-info">
           <header>
@@ -98,13 +167,51 @@ function displayMenuItems(menuItems) {
           </p>
         </div>
       </article>`;
-        });
-        displayMenu = displayMenu.join('') // join() makes array a string (without commas in between)
-    
-    sectionCenter.innerHTML = displayMenu;
+  });
+  displayMenu = displayMenu.join('') // join() makes array a string (without commas in between)
+  sectionCenter.innerHTML = displayMenu;
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// get each menu button type selected and responding
+// ** NOTE ** // currentTarget , dataset: on el, we can add 
+// attribute w/ data prefix dataset is pulling for:
+//  'data-id':breakfast on html
+// here we are using both dataset as well as grabing the
+// innerHTML to identify and use our btns
+
+// ********************************************************
+// This example uses both grabbing innerHTML to identify btns
+// as well as event.currentTarget.dataset.id
+// filterBtns.forEach(function(btn) {
+//   btn.addEventListener('click', function(event) {
+//     if (btn.innerHTML === 'breakfast'){
+//       console.log(event.currentTarget.dataset.id);
+//     } else if(btn.innerHTML === 'Lunch') {
+//       console.log('Lunch');
+//     } else if (btn.innerHTML === 'Shakes'){
+//       console.log('Shakes');
+//     } else {
+//     console.log('all');
+//     }
+//   })
+// })
+// *******************************************************
 
 
 
