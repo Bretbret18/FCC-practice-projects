@@ -203,6 +203,7 @@ nav {
   overflow: hidden;
   transition: var(--transition);
 }
+/* TOGGLE CLASS */
 .show-links {
   height: 10rem;
 }

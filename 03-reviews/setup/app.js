@@ -1,3 +1,13 @@
+// // // NOTES: // // //
+// *** iterate array of objects by creating let currentItem
+// and assigning it with the array reviews[currentItem],
+// as currentItem is a number (0)
+
+// to change an image in html with an array, simply use 
+// (considering our variables): img.src = item.img;
+
+// ______________________________________________________ //
+
 // local reviews data
 const reviews = [
   {
@@ -39,65 +49,59 @@ const reviews = [
 ];
 
 
-const img = document.querySelector('#person-img')
-const author = document.querySelector('#author')
-const job = document.querySelector('#job')
-const text = document.querySelector('#info')
+const img = document.querySelector('#person-img');
+const author = document.querySelector('#author');
+const job = document.querySelector('#job');
+const info = document.querySelector('#info');
 
-// grab buttons
-const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
+const prevBtn = document.querySelector('.prev-btn');
 const randomBtn = document.querySelector('.random-btn');
 
-// set starting item (initial value)
 let currentItem = 0;
 
-// load initial item / window and (DOMContentLoaded)
-// load automatically
-// Understand what happens when DOMContentLoaded function
-// was changed to showPerson()
-window.addEventListener('DOMContentLoaded', function () {
-  showPerson(currentItem);
+window.addEventListener("DOMContentLoaded", function() {
+  showPerson()
 });
 
-// function show person based on item
-function showPerson (person) {
-  const item = reviews[person];
-  img.src = item.img;
-  author.textContent = item.name;
-  job.innerHTML = item.job;
-  text.innerHTML = item.text;
-};
-
-nextBtn.addEventListener('click', function () {
+// if the currentItem being shown becomes greater than the
+// length of the array, reset the process to 0 (first item
+// of array)
+nextBtn.addEventListener('click', function() {
   currentItem++;
-  if(currentItem > reviews.length - 1) {
+  if (currentItem > reviews.length - 1) {
     currentItem = 0;
   }
-  showPerson(currentItem);
-});
-
-
-
-prevBtn.addEventListener('click', function () {
-  currentItem--;
-  if (currentItem < 0) {
-    currentItem = reviews.length - 1;
-  }
-  showPerson(currentItem);
-});
-
-
-// show random person
-randomBtn.addEventListener('click', function () {
-  currentItem = Math.floor(Math.random() * reviews.length);
-  console.log(currentItem);
   showPerson(currentItem)
 });
 
+prevBtn.addEventListener('click', function() {
+  currentItem--;
+  if (currentItem < 0) {
+    currentItem = 3;
+    // or 
+    // currentItem = reviews.length - 1;
+  }
+  showPerson(currentItem)
+});
 
+randomBtn.addEventListener('click', function() {
+  currentItem = randomNumber();
+  showPerson(randomNumber)
+})
 
+function randomNumber() {
+  return Math.floor(Math.random() * reviews.length)
+}
 
+function showPerson() {
+  const item = reviews[currentItem];
+  img.src = item.img;
+  author.textContent = item.name;
+  job.textContent = item.job;
+  info.textContent = item.text;
+}
 
+console.log(reviews.length);
 
 
